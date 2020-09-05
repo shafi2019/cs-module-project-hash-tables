@@ -21,7 +21,17 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
+         # Your code here
+        # self.capacity = MIN_CAPACITY
+        # self.size = 0
+        # self.buckets = [None] * self.capacity
+       if capacity < MIN_CAPACITY:
+          self.capacity = MIN_CAPACITY
+       else: 
+           self.capacity = capacity
+
+        self.buckets = [None] * self.capacity
+
 
 
     def get_num_slots(self):
@@ -35,6 +45,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return len(self.bukets)
 
 
     def get_load_factor(self):
@@ -51,9 +62,25 @@ class HashTable:
         FNV-1 Hash, 64-bit
 
         Implement this, and/or DJB2.
+
+            0b0101011010
+            0b1010110011
+            -------------
+            0b01111101001
         """
 
         # Your code here
+        FNV_offset_basis = 14695981039346656037
+        FNV_prime = 1099511628211
+
+        hashed_result =  FNV_offset_basis
+        key_bytes = key.encode()
+
+        for byte in key_bytes:
+            hashed_result = hashed_result * FNV_prime
+            hashed_result =  hashed_result ^ byte
+            
+        return hashed_result
 
 
     def djb2(self, key):
@@ -63,6 +90,11 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        hased_result = 5381
+        key_bytes= key.encode()
+        for byte in key_bytes:
+            hased_result = ((hased_result << 5) = hased_result) + byte
+        return hased_result
 
 
     def hash_index(self, key):
@@ -82,6 +114,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        idx = self.hash_index(key)
+        self.buckets[idx] = value
+
 
 
     def delete(self, key):
@@ -93,6 +128,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        idx = self.hash_index(key)
+        self.buckets[idx] = None
 
 
     def get(self, key):
@@ -114,6 +151,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        idx = self.hash_index(key)
+        value = self.buckets[inx]
+
+        return value
 
 
 
