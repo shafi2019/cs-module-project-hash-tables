@@ -21,17 +21,11 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-         # Your code here
-        # self.capacity = MIN_CAPACITY
-        # self.size = 0
-        # self.buckets = [None] * self.capacity
-       if capacity < MIN_CAPACITY:
-          self.capacity = MIN_CAPACITY
-       else: 
-           self.capacity = capacity
-
+        if capacity < MIN_CAPACITY:
+            self.capacity = MIN_CAPACITY
+        else:
+            self.capacity = capacity
         self.buckets = [None] * self.capacity
-
 
 
     def get_num_slots(self):
@@ -45,7 +39,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return len(self.bukets)
+        return len(self.buckets)
 
 
     def get_load_factor(self):
@@ -90,11 +84,11 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hased_result = 5381
-        key_bytes= key.encode()
+        hashed_result = 5381
+        key_bytes = key.encode()
         for byte in key_bytes:
-            hased_result = ((hased_result << 5) = hased_result) + byte
-        return hased_result
+            hashed_result = ((hashed_result << 5) + hashed_result) + byte
+        return hashed_result
 
 
     def hash_index(self, key):
@@ -141,6 +135,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        idx = self.hash_index(key)
+        value = self.buckets[idx]
+        return value
 
 
     def resize(self, new_capacity):
@@ -151,10 +148,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        idx = self.hash_index(key)
-        value = self.buckets[inx]
-
-        return value
 
 
 
