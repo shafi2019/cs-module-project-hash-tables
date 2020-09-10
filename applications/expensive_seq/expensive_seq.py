@@ -1,8 +1,19 @@
 # Your code here
-
+expensive = {}
 
 def expensive_seq(x, y, z):
     # Your code here
+    if (x, y, z) in expensive:
+        return expensive[(x, y, z)]
+
+    result = 0
+    if x <= 0:
+        result = y + z
+    else:
+        result = expensive_seq(x-1,y+1,z) + expensive_seq(x-2,y+2,z*2) + expensive_seq(x-3,y+3,z*3)
+    
+    expensive[(x, y, z)] = result
+    return result
 
 
 
