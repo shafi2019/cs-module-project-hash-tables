@@ -7,25 +7,180 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    # 2 Day code 
+    def get_value(self):
+        return self.value
+
+    def get_key(self):
+        return self.key
+
+    def get_next(self):
+        return self.next
+
+    def set_next(self, entry):
+        self.next = entry
+
+    def set_value(self, value):
+        self.value = value
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
 
+# class HashTable:
+#     """
+#     A hash table that with `capacity` buckets
+#     that accepts string keys
+
+#     Implement this.
+#     """
+
+#     def __init__(self, capacity):
+#         if capacity < MIN_CAPACITY:
+#             self.capacity = MIN_CAPACITY
+#         else:
+#             self.capacity = capacity
+#         self.buckets = [None] * self.capacity
+
+
+#     def get_num_slots(self):
+#         """
+#         Return the length of the list you're using to hold the hash
+#         table data. (Not the number of items stored in the hash table,
+#         but the number of slots in the main list.)
+
+#         One of the tests relies on this.
+
+#         Implement this.
+#         """
+#         # Your code here
+#         return len(self.buckets)
+
+
+#     def get_load_factor(self):
+#         """
+#         Return the load factor for this hash table.
+
+#         Implement this.
+#         """
+#         # Your code here
+
+
+#     def fnv1(self, key):
+#         """
+#         FNV-1 Hash, 64-bit
+
+#         Implement this, and/or DJB2.
+
+#             0b0101011010
+#             0b1010110011
+#             -------------
+#             0b01111101001
+#         """
+
+#         # Your code here
+#         FNV_offset_basis = 14695981039346656037
+#         FNV_prime = 1099511628211
+
+#         hashed_result =  FNV_offset_basis
+#         key_bytes = key.encode()
+
+#         for byte in key_bytes:
+#             hashed_result = hashed_result * FNV_prime
+#             hashed_result =  hashed_result ^ byte
+            
+#         return hashed_result
+
+
+#     def djb2(self, key):
+#         """
+#         DJB2 hash, 32-bit
+
+#         Implement this, and/or FNV-1.
+#         """
+#         # Your code here
+#         hashed_result = 5381
+#         key_bytes = key.encode()
+#         for byte in key_bytes:
+#             hashed_result = ((hashed_result << 5) + hashed_result) + byte
+#         return hashed_result
+
+
+#     def hash_index(self, key):
+#         """
+#         Take an arbitrary key and return a valid integer index
+#         between within the storage capacity of the hash table.
+#         """
+#         #return self.fnv1(key) % self.capacity
+#         return self.djb2(key) % self.capacity
+
+#     def put(self, key, value):
+#         """
+#         Store the value with the given key.
+
+#         Hash collisions should be handled with Linked List Chaining.
+
+#         Implement this.
+#         """
+#         # Your code here
+#         idx = self.hash_index(key)
+#         self.buckets[idx] = value
+
+
+
+#     def delete(self, key):
+#         """
+#         Remove the value stored with the given key.
+
+#         Print a warning if the key is not found.
+
+#         Implement this.
+#         """
+#         # Your code here
+#         idx = self.hash_index(key)
+#         self.buckets[idx] = None
+
+
+#     def get(self, key):
+#         """
+#         Retrieve the value stored with the given key.
+
+#         Returns None if the key is not found.
+
+#         Implement this.
+#         """
+#         # Your code here
+#         idx = self.hash_index(key)
+#         value = self.buckets[idx]
+#         return value
+
+
+#     def resize(self, new_capacity):
+#         """
+#         Changes the capacity of the hash table and
+#         rehashes all key/value pairs.
+
+#         Implement this.
+#         """
+#         # Your code here
+
+
+
+# Day 2 code
+
 class HashTable:
     """
     A hash table that with `capacity` buckets
     that accepts string keys
-
     Implement this.
     """
 
     def __init__(self, capacity):
-        if capacity < MIN_CAPACITY:
-            self.capacity = MIN_CAPACITY
-        else:
-            self.capacity = capacity
-        self.buckets = [None] * self.capacity
+        # Your code here
+        self.capacity = capacity
+        self.table = [None] * capacity
+        self.count = 0
 
 
     def get_num_slots(self):
@@ -33,62 +188,43 @@ class HashTable:
         Return the length of the list you're using to hold the hash
         table data. (Not the number of items stored in the hash table,
         but the number of slots in the main list.)
-
         One of the tests relies on this.
-
         Implement this.
         """
         # Your code here
-        return len(self.buckets)
+        return len(self.table)
 
 
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
-
         Implement this.
         """
         # Your code here
+        return self.count / self.capacity
 
 
     def fnv1(self, key):
         """
         FNV-1 Hash, 64-bit
-
         Implement this, and/or DJB2.
-
-            0b0101011010
-            0b1010110011
-            -------------
-            0b01111101001
         """
 
         # Your code here
-        FNV_offset_basis = 14695981039346656037
-        FNV_prime = 1099511628211
-
-        hashed_result =  FNV_offset_basis
-        key_bytes = key.encode()
-
-        for byte in key_bytes:
-            hashed_result = hashed_result * FNV_prime
-            hashed_result =  hashed_result ^ byte
-            
-        return hashed_result
 
 
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
-
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hashed_result = 5381
-        key_bytes = key.encode()
-        for byte in key_bytes:
-            hashed_result = ((hashed_result << 5) + hashed_result) + byte
-        return hashed_result
+        str_key = str(key).encode()
+        hash_value = 5381
+        for s in str_key:
+            hash_value = ((hash_value << 5) + hash_value) + s
+
+        return (hash_value & 0xffffffff)
 
 
     def hash_index(self, key):
@@ -102,53 +238,89 @@ class HashTable:
     def put(self, key, value):
         """
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
         Implement this.
         """
         # Your code here
-        idx = self.hash_index(key)
-        self.buckets[idx] = value
+        if self.get_load_factor() > 0.7:
+            self.resize(self.capacity * 2)
 
+        index = self.hash_index(key)
+        table_entry = HashTableEntry(key, value)
+        self.count += 1
+        if self.table[index] == None:
+            self.table[index] = table_entry
+        else:
+            current_node = self.table[index]
+            while current_node != None:
+                if current_node.get_key() == key:
+                    current_node.set_value(value)
+                    return
+                elif current_node.get_next() == None:
+                    current_node.set_next(table_entry)
 
+                current_node = current_node.get_next()
 
     def delete(self, key):
         """
         Remove the value stored with the given key.
-
         Print a warning if the key is not found.
-
         Implement this.
         """
         # Your code here
-        idx = self.hash_index(key)
-        self.buckets[idx] = None
+        index = self.hash_index(key)
+        current_node = self.table[index]
+        prev_node = None
+        while current_node != None:
+            if current_node.get_key() == key:
+                self.count -= 1
+                if prev_node == None:
+                    current_node.set_value(None)
+                else:
+                    prev_node.set_next(current_node.get_next())
 
+            prev_node = current_node
+            current_node = current_node.get_next()
+
+        if self.get_load_factor() < 0.2:
+            new_capacity = self.capacity // 2
+            if new_capacity < MIN_CAPACITY:
+                self.resize(MIN_CAPACITY)
+            else:
+                self.resize(new_capacity)
 
     def get(self, key):
         """
         Retrieve the value stored with the given key.
-
         Returns None if the key is not found.
-
         Implement this.
         """
         # Your code here
-        idx = self.hash_index(key)
-        value = self.buckets[idx]
-        return value
+        index = self.hash_index(key)
+        current_node = self.table[index]
+        while current_node != None:
+            if current_node.get_key() == key:
+                return current_node.get_value()
+            current_node = current_node.get_next()
+        return None
 
 
     def resize(self, new_capacity):
         """
         Changes the capacity of the hash table and
         rehashes all key/value pairs.
-
         Implement this.
         """
         # Your code here
+        prev_table = self.table
+        self.table = [None] * new_capacity
+        self.capacity = new_capacity
 
+        for index in range(len(prev_table)):
+            current_node = prev_table[index]
+            while current_node != None:
+                self.put(current_node.get_key(), current_node.get_value())
+                current_node = current_node.get_next()
 
 
 if __name__ == "__main__":
